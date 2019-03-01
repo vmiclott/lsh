@@ -1,6 +1,6 @@
 import sys
 from scipy.cluster.vq import kmeans
-from util import dotdict
+from lsh.util import dotdict
 import numpy as np
 
 #Cluster data using kmeans and euclidean distance.
