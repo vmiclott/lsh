@@ -3,9 +3,14 @@ import time
 
 
 class HashFunction:
-    def __init__(self, d, k):
-        self.d = d
-        self.k = k
+    def __init__(self, d, k, seed = None):
+        d = int(d)
+        k = int(k)
+        if seed:
+            self.seed = int(seed)
+        else:
+            self.seed = np.random.randint(0,2147483647)
+        np.random.seed(self.seed)
         self.indices = np.random.randint(0, d, k)
 
     def hash(self, p):

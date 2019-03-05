@@ -3,10 +3,18 @@ import time
 
 
 class HashFunction:
-    def __init__(self, d, k, r):
+    def __init__(self, d, k, r, seed=None):
+        d = int(d)
+        k = int(k)
+        r = int(r)
         self.d = d
         self.k = k
         self.r = r
+        if seed:
+            self.seed = int(seed)
+        else:
+            self.seed = np.random.randint(0,2147483647)
+        np.random.seed(self.seed)
         self.a = np.random.standard_cauchy((k, d))
         self.b = np.random.randint(0, r, k)
 
@@ -16,16 +24,44 @@ class HashFunction:
             hashcode[i] = np.floor((np.matmul(self.a[i], p) + self.b[i]) / self.r)
         return tuple(hashcode)
 
+    def save(self, fileName):
+        f = open(fileName, 'w')
+        f.write('dimension ' + str(d) + '\n')
+        f.write('k ' + str(k) + '\n')
+        f.write('r ' + str(r) + '\n')
+        f.write('seed ' + str(self.seed))
+
 
 def manhDist(a, b):
     return sum(np.absolute(a - b))
 
 
+def saveHashFunctions(functions, fileName):
+    if fileName.endswith('.txt'):
+        fileName.replace('.txt','')
+    for i in range(len(functions)):
+        name = fileName + str(i) + '.txt'
+        functions[i].save(name)
+
+
+def loadHashFunctions(fileName, l):
+    functions = []
+    for i in range(l):
+        name = fileName+str(i)+'.txt'
+        f = open(name, 'r')
+        d = f.readline().split(' ')[1]
+        k = f.readline().split(' ')[1]
+        r = f.readline().split(' ')[1]
+        seed = f.readline().split(' ')[1]
+        functions.append(HashFunction(d,k,r,seed))
+    return functions
+
+
 # Construct l hash functions for d-dimensional points in Hamming space
 def makeHashFunctions(d, l, k, r):
-    functions = set()
+    functions = []
     for i in range(l):
-        functions.add(HashFunction(d, k, r))
+        functions.append(HashFunction(d, k, r))
     return functions
 
 
@@ -43,17 +79,17 @@ def hashDataWithFunction(data, function):
 
 def hashData(data, functions):
     functionDict = {}
-    for function in functions:
-        functionDict[function] = hashDataWithFunction(data, function)
+    for i in range(len(functions)):
+        functionDict[i] = hashDataWithFunction(data, functions[i])
     return functionDict
 
 
 # Find near neighbor using hash codes
 def nearNeighbor(p, data, functionDict, functions):
     indices = set()
-    for function in functions:
-        hashcode = function.hash(p)
-        hashDict = functionDict[function]
+    for i in range(len(functions)):
+        hashcode = functions[i].hash(p)
+        hashDict = functionDict[i]
         if hashcode in hashDict.keys():
             indices.update(hashDict[hashcode])
     minDist = 0
@@ -86,16 +122,22 @@ def nearestNeighbor(p, data):
             return nearestNeighbor
     return nearestNeighbor
 
-r = 5
-l = 20
-k = 10
-d = 100
-n = 100000
-data = np.random.randint(0, 10, (n, d))
-p = np.random.randint(0, 10, d)
 
+r = 10
+l = 20
+k = 2
+d = 10
+n = 1000
+#data = np.random.randint(0, 10, (n, d))
+#p = np.random.randint(0, 10, d)
+#np.save('data',data)
+#np.save('p',p)
+data = np.load('data.npy')
+p = np.load('p.npy')
 currentTime = time.time()
-functions = makeHashFunctions(d, l, k, r)
+#functions = makeHashFunctions(d, l, k, r)
+functions = loadHashFunctions('hashFunction',20)
+saveHashFunctions(functions,'hashFunction')
 functionDict = hashData(data, functions)
 time0 = time.time() - currentTime
 print("Preprocessing time: " + str(time0))
