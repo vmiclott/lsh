@@ -26,9 +26,9 @@ class HashFunction:
 
     def save(self, fileName):
         f = open(fileName, 'w')
-        f.write('dimension ' + str(d) + '\n')
-        f.write('k ' + str(k) + '\n')
-        f.write('r ' + str(r) + '\n')
+        f.write('dimension ' + str(self.d) + '\n')
+        f.write('k ' + str(self.k) + '\n')
+        f.write('r ' + str(self.r) + '\n')
         f.write('seed ' + str(self.seed))
 
 

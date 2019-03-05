@@ -6,6 +6,8 @@ class HashFunction:
     def __init__(self, d, k, seed = None):
         d = int(d)
         k = int(k)
+        self.d = d
+        self.k = k
         if seed:
             self.seed = int(seed)
         else:
@@ -16,12 +18,35 @@ class HashFunction:
     def hash(self, p):
         return tuple(p[self.indices])
 
+    def save(self, fileName):
+        f = open(fileName, 'w')
+        f.write('dimension ' + str(self.d) + '\n')
+        f.write('k ' + str(self.k) + '\n')
+        f.write('seed ' + str(self.seed))
+
+def saveHashFunctions(functions, fileName):
+    if fileName.endswith('.txt'):
+        fileName.replace('.txt', '')
+    for i in range(len(functions)):
+        name = fileName + str(i) + '.txt'
+        functions[i].save(name)
+
+def loadHashFunctions(fileName, l):
+    functions = []
+    for i in range(l):
+        name = fileName + str(i) + '.txt'
+        f = open(name, 'r')
+        d = f.readline().split(' ')[1]
+        k = f.readline().split(' ')[1]
+        seed = f.readline().split(' ')[1]
+        functions.append(HashFunction(d, k, seed))
+    return functions
 
 # Construct l hash functions for d-dimensional points in Hamming space
 def makeHashFunctions(d, l, k):
-    functions = set()
+    functions = []
     for i in range(l):
-        functions.add(HashFunction(d, k))
+        functions.append(HashFunction(d, k))
     return functions
 
 
@@ -39,17 +64,17 @@ def hashDataWithFunction(data, function):
 
 def hashData(data,functions):
     functionDict = {}
-    for function in functions:
-        functionDict[function] = hashDataWithFunction(data, function)
+    for i in range(len(functions)):
+        functionDict[i] = hashDataWithFunction(data, functions[i])
     return functionDict
 
 
 # Find near neighbor using hash codes
 def nearNeighbor(p, data, functionDict, functions):
     indices = set()
-    for function in functions:
-        hashcode = function.hash(p)
-        hashDict = functionDict[function]
+    for i in range(len(functions)):
+        hashcode = functions[i].hash(p)
+        hashDict = functionDict[i]
         if hashcode in hashDict.keys():
             indices.update(hashDict[hashcode])
     minDist = 0
@@ -84,8 +109,8 @@ def nearestNeighbor(p,data):
 
 l = 20
 k = 20
-d = 1000
-n = 1000000
+d = 100
+n = 100000
 data = np.random.randint(0,2,(n,d))
 p = np.random.randint(0,2,d)
 
