@@ -1,102 +1,146 @@
-import sys
 from scipy.cluster.vq import kmeans
-from lsh.util import dotdict
 import numpy as np
+import time
 
-#Cluster data using kmeans and euclidean distance.
-def cluster(data,k):
-    centroids, distortion = kmeans(data,k)
-    return centroids
+class HashFunction:
+    def __init__(self, k, train=None, centroids=None):
+        k = int(k)
+        self.k = k
+        if centroids is not None:
+            self.centroids = centroids
+        elif train is not None:
+            self.centroids, self.distortion = kmeans(train, k)
 
-#Make l*k buckets defined by the k centroids of l iterations of kmeans with different seeds.
-def makeBuckets(train, l, k):
-    allBuckets = {}
+    def hash(self, p):
+        minDist = float('inf')
+        hashcode = np.zeros(self.k)
+        for i in range(self.k):
+            centroid = self.centroids[i]
+            dist = np.linalg.norm(np.subtract(p, centroid))
+            if dist < minDist:
+                minDist = dist
+                hashcode = centroid
+        return tuple(hashcode)
+
+
+    def save(self, fileName):
+        np.savetxt(fileName,self.centroids)
+
+
+
+def saveHashFunctions(functions, fileName):
+    if fileName.endswith('.txt'):
+        fileName.replace('.txt','')
+    for i in range(len(functions)):
+        name = fileName + str(i) + '.txt'
+        functions[i].save(name)
+
+
+def loadHashFunctions(fileName, l):
+    functions = []
     for i in range(l):
-        buckets = {}
-        centroids = cluster(train, k)
-        for j in range(k):
-            buckets[j] = centroids[j]
-        allBuckets[i] = buckets
-    return allBuckets
+        name = fileName+str(i)+'.txt'
+        centroids = np.loadtxt(name)
+        k = len(centroids)
+        functions.append(HashFunction(k,None,centroids))
+    return functions
 
-#Hash a datapoint to a l buckets by finding the buckets with closest centroid in each of the l collections of buckets.
-def hash(p,buckets):
-    hashcodes = []
-    for i in range(len(buckets)):
-        mindist = float('inf')
-        hashcode = (-1,-1)
-        b = buckets[i]
-        for j in range(len(b)):
-            c = b[j]
-            dist = np.linalg.norm(np.subtract(p,c))
-            if dist < mindist:
-                hashcode = (i,j)
-                mindist = dist
-        hashcodes.append(hashcode)
-    return hashcodes
 
-#Hash a whole dataset using given buckets.
-def hashData(data, buckets, l, k):
+# Construct l hash functions for d-dimensional points in Hamming space
+def makeHashFunctions(l, k, train):
+    functions = []
+    for i in range(l):
+        functions.append(HashFunction(k, train))
+    return functions
+
+
+# Hash all n points from a d-dimensional data set in Hamming space, returns the buckets containing indices of points
+def hashDataWithFunction(data, function):
     hashDict = {}
-    for i in range(l):
-        for j in range(k):
-            hashDict[(i,j)] = []
     for i in range(len(data)):
-        hashCodes = hash(data[i], buckets)
-        for h in hashCodes:
-            hashDict[h].append(i)
+        hashcode = function.hash(data[i])
+        if hashcode in hashDict.keys():
+            hashDict[hashcode].add(i)
+        else:
+            hashDict[hashcode] = {i}
     return hashDict
 
-#Parse command line arguments.
-def parsecl(argv):
-    settings = {}
-    settings['data'] = ''
-    settings['train'] = ''
-    settings['buckets'] = ''
-    settings['centroids'] = ''
-    settings['k'] = -1
-    settings['l'] = -1
-    settings = dotdict(settings)
-    for i in range(len(argv)):
-        flag = argv[i][0:2]
-        val = argv[i][2:]
-        if flag == '-d':
-            settings.data = np.load(val)
-        if flag == '-t':
-            settings.train = np.load(val)
-        if flag == '-b':
-            settings.buckets = val
-        if flag == '-c':
-            settings.centroids = val
-        if flag == '-k':
-            settings.k = int(val)
-        if flag == '-l':
-            settings.l = int(val)
-    return settings
 
-def main(argv):
-    settings = parsecl(argv)
-    print('Hashing data to ' + str(settings.k*settings.l) + ' buckets.')
-    buckets = makeBuckets(settings.train, settings.l, settings.k)
-    hashDict = hashData(settings.data,buckets,settings.l,settings.k)
-    file = open(settings.buckets,'w')
-    for code in hashDict.keys():
-        file.write(str(code[0]) + ' ' + str(code[1]))
-        file.write('\n')
-        for index in hashDict[code]:
-            file.write(str(index) + ' ')
-        file.write('\n')
-    file.close()
-    file = open(settings.centroids, 'w')
-    for i in range(len(buckets)):
-        b = buckets[i]
-        for j in range(len(b)):
-            c = b[j]
-            file.write(str(i) + ' ' + str(j))
-            file.write('\n')
-            file.write(str(c))
-            file.write('\n')
-    file.close()
+def hashData(data, functions):
+    functionDict = {}
+    for i in range(len(functions)):
+        functionDict[i] = hashDataWithFunction(data, functions[i])
+    return functionDict
 
-if __name__ == "__main__":
-    main(sys.argv)
+
+def nearNeighbor(p, data, functionDict, functions):
+    indices = set()
+    for i in range(len(functions)):
+        hashcode = functions[i].hash(p)
+        hashDict = functionDict[i]
+        if hashcode in hashDict.keys():
+            indices.update(hashDict[hashcode])
+    minDist = 0
+    nearNeighbor = None
+    for index in indices:
+        dist = np.linalg.norm(np.subtract(p, data[index]))
+        if nearNeighbor is None:
+            nearNeighbor = index
+            minDist = dist
+        elif dist < minDist:
+            nearNeighbor = index
+            minDist = dist
+        if minDist == 0:
+            return nearNeighbor
+    return nearNeighbor
+
+
+def nearestNeighbor(p, data):
+    minDist = 0
+    nearestNeighbor = None
+    for index in range(len(data)):
+        dist = np.linalg.norm(np.subtract(p, data[index]))
+        if nearestNeighbor is None:
+            nearestNeighbor = index
+            minDist = dist
+        elif dist < minDist:
+            nearestNeighbor = index
+            minDist = dist
+        if minDist == 0:
+            return nearestNeighbor
+    return nearestNeighbor
+
+
+
+
+
+r = 10
+l = 20
+k = 2
+d = 10
+n = 1000
+data = np.random.random_sample((n, d))
+p = np.random.random_sample(d)
+train = data[0:100]
+functions = makeHashFunctions(l,k,train)
+functionDict = hashData(data, functions)
+
+currentTime = time.time()
+time0 = time.time() - currentTime
+print("Preprocessing time: " + str(time0))
+currentTime = time.time()
+neighbor = nearNeighbor(p, data, functionDict, functions)
+time1 = time.time() - currentTime
+currentTime = time.time()
+nearestNeighbor = nearestNeighbor(p, data)
+time2 = time.time() - currentTime
+print("Query")
+print(p)
+print("Near Neighbor (index): " + str(neighbor))
+print(data[neighbor])
+print("Time: " + str(time1))
+print("Distance to query: " + str(np.linalg.norm(np.subtract(p, data[neighbor]))))
+print("Nearest Neighbor (index)" + str(nearestNeighbor))
+print(data[nearestNeighbor])
+print("Time: " + str(time2))
+print("Distance to query: " + str(np.linalg.norm(np.subtract(p, data[nearestNeighbor]))))
