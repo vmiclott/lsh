@@ -1,22 +1,57 @@
-import numpy as np
-class Lsh:
+class LSH:
+    def dist(self, a, b):
+        pass
 
-    def __init__(self, method, n, d, l, k):
-        self.method = method
-        self.n = n
-        self.d = d
-        self.l = l
-        self.k = k
-        self.hashfunctions = None
-        self.data = None
-        self.trainingData = None
-        self.hashDict = None
+    # Hash all n points from a d-dimensional data set in Hamming space, returns the buckets containing indices of points
+    def hashDataWithFunction(self, data, function):
+        hashDict = {}
+        for i in range(len(data)):
+            hashcode = function.hash(data[i])
+            if hashcode in hashDict.keys():
+                hashDict[hashcode].add(i)
+            else:
+                hashDict[hashcode] = {i}
+        return hashDict
 
-    def hash(self, p):
-        hashcodes = np.empty((self.l, self.k + 1), dtype=int)
-        for i in range(self.l):
-            hashcodes[i, 0] = i
-            for j in range(self.k):
-                index = self.hashfunctions[i, j]
-                hashcodes[i, j + 1] = p[index]
-        return hashcodes
+    def hashData(self, data, functions):
+        functionDict = {}
+        for i in range(len(functions)):
+            functionDict[i] = self.hashDataWithFunction(data, functions[i])
+        return functionDict
+
+    # Find near neighbor using hash codes
+    def nearNeighbor(self, p, data, functionDict, functions):
+        indices = set()
+        for i in range(len(functions)):
+            hashcode = functions[i].hash(p)
+            hashDict = functionDict[i]
+            if hashcode in hashDict.keys():
+                indices.update(hashDict[hashcode])
+        minDist = 0
+        nearNeighbor = None
+        for index in indices:
+            dist = self.dist(p, data[index])
+            if nearNeighbor is None:
+                nearNeighbor = index
+                minDist = dist
+            elif dist < minDist:
+                nearNeighbor = index
+                minDist = dist
+            if minDist == 0:
+                return nearNeighbor
+        return nearNeighbor
+
+    def nearestNeighbor(self, p, data):
+        minDist = 0
+        nearestNeighbor = None
+        for index in range(len(data)):
+            dist = self.dist(p, data[index])
+            if nearestNeighbor is None:
+                nearestNeighbor = index
+                minDist = dist
+            elif dist < minDist:
+                nearestNeighbor = index
+                minDist = dist
+            if minDist == 0:
+                return nearestNeighbor
+        return nearestNeighbor
