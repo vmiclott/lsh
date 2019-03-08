@@ -1,3 +1,4 @@
+import numpy as np
 class LSH:
     def dist(self, a, b):
         pass
@@ -19,6 +20,18 @@ class LSH:
             functionDict[i] = self.hashDataWithFunction(data, functions[i])
         return functionDict
 
+    def saveFunctionDict(self,functionDict,fileName):
+        for i in range(len(functionDict)):
+            name = fileName + str(i)
+            np.save(name,functionDict[i])
+
+    def loadFunctionDict(self,l,fileName):
+        functionDict = {}
+        for i in range(l):
+            name = fileName + str(i) + '.npy'
+            functionDict[i] = np.load(name).item()
+        return functionDict
+
     # Find near neighbor using hash codes
     def nearNeighbor(self, p, data, functionDict, functions):
         indices = set()
@@ -27,6 +40,7 @@ class LSH:
             hashDict = functionDict[i]
             if hashcode in hashDict.keys():
                 indices.update(hashDict[hashcode])
+        print("Items in same bucket (indices): " + str(indices))
         minDist = 0
         nearNeighbor = None
         for index in indices:
@@ -55,3 +69,4 @@ class LSH:
             if minDist == 0:
                 return nearestNeighbor
         return nearestNeighbor
+

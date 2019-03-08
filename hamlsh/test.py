@@ -4,16 +4,16 @@ import numpy as np
 
 hammLsh = HammingLSH()
 
-l = 20
-k = 20
-d = 100
-n = 100000
-data = np.random.randint(0, 2, (n, d))
-# np.save('data',data)
-# data = np.load('data.npy')
-p = np.random.randint(0, 2, d)
-# np.save('p',p)
-# p = np.load('p.npy')
+l = 15
+k = 25
+d = 50
+n = 10000
+#data = np.random.randint(0, 2, (n, d))
+#np.save('data',data)
+data = np.load('data.npy')
+#p = np.random.randint(0, 2, d)
+#np.save('p',p)
+p = np.load('p.npy')
 
 currentTime = time.time()
 functions = hammLsh.makeHashFunctions(d, l, k)

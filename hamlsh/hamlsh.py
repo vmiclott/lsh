@@ -1,5 +1,6 @@
 import numpy as np
-from lsh.lsh import LSH
+
+from lsh.main.LSH import LSH
 
 
 class HammingHashFunction:
