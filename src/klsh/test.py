@@ -2,7 +2,7 @@ import time
 
 import numpy as np
 
-from lsh.lsh.klsh.klsh import *
+from lsh.src.klsh.klsh import *
 
 kLsh = KLSH()
 

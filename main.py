@@ -3,8 +3,8 @@ import shutil
 import sys
 import time
 
-from lsh.lsh.hamlsh.hamlsh import *
-from lsh.lsh.util import dotdict
+from src.hamlsh.hamlsh import *
+from src.util import dotdict
 
 
 def parsecl(argv):

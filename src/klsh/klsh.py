@@ -1,6 +1,6 @@
 from scipy.cluster.vq import kmeans
 import numpy as np
-from lsh.lsh import LSH
+from lsh.src import LSH
 
 
 class KMeansHashFunction:

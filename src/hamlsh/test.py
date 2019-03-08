@@ -2,7 +2,7 @@ import time
 
 import numpy as np
 
-from lsh.lsh.hamlsh.hamlsh import *
+from src.hamlsh.hamlsh import *
 
 hammLsh = HammingLSH()
 

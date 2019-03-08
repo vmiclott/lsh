@@ -1,40 +1,35 @@
 import numpy as np
-from lsh.lsh import LSH
+
+from src.LSH import LSH
 
 
-class P1HashFunction:
-    def __init__(self, d, k, r, seed=None):
+class HammingHashFunction:
+    def __init__(self, d, k, seed=None):
         d = int(d)
         k = int(k)
-        r = int(r)
         self.d = d
         self.k = k
-        self.r = r
         if seed:
             self.seed = int(seed)
         else:
             self.seed = np.random.randint(0, 2147483647)
         np.random.seed(self.seed)
-        self.a = np.random.standard_cauchy((k, d))
-        self.b = np.random.randint(0, r, k)
+        self.indices = np.random.randint(0, d, k)
 
     def hash(self, p):
-        hashcode = np.zeros(self.k)
-        for i in range(self.k):
-            hashcode[i] = np.floor((np.matmul(self.a[i], p) + self.b[i]) / self.r)
-        return tuple(hashcode)
+        return tuple(p[self.indices])
 
     def save(self, fileName):
         f = open(fileName, 'w')
         f.write('dimension ' + str(self.d) + '\n')
         f.write('k ' + str(self.k) + '\n')
-        f.write('r ' + str(self.r) + '\n')
         f.write('seed ' + str(self.seed))
 
 
-class P1LSH(LSH):
+
+class HammingLSH(LSH):
     def dist(self, a, b):
-        return sum(np.absolute(a - b))
+        return np.count_nonzero(a != b)
 
     def saveHashFunctions(self, functions, fileName):
         if fileName.endswith('.txt'):
@@ -50,14 +45,13 @@ class P1LSH(LSH):
             f = open(name, 'r')
             d = f.readline().split(' ')[1]
             k = f.readline().split(' ')[1]
-            r = f.readline().split(' ')[1]
             seed = f.readline().split(' ')[1]
-            functions.append(P1HashFunction(d, k, r, seed))
+            functions.append(HammingHashFunction(d, k, seed))
         return functions
 
     # Construct l hash functions for d-dimensional points in Hamming space
-    def makeHashFunctions(self, d, l, k, r):
+    def makeHashFunctions(self, d, l, k):
         functions = []
         for i in range(l):
-            functions.append(P1HashFunction(d, k, r))
+            functions.append(HammingHashFunction(d, k))
         return functions

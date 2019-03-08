@@ -1,9 +1,8 @@
 import numpy as np
+from lsh.src import LSH
 
-from lsh.lsh.LSH import LSH
 
-
-class P2HashFunction:
+class P1HashFunction:
     def __init__(self, d, k, r, seed=None):
         d = int(d)
         k = int(k)
@@ -16,7 +15,7 @@ class P2HashFunction:
         else:
             self.seed = np.random.randint(0, 2147483647)
         np.random.seed(self.seed)
-        self.a = np.random.normal(0, 1, (k, d))
+        self.a = np.random.standard_cauchy((k, d))
         self.b = np.random.randint(0, r, k)
 
     def hash(self, p):
@@ -33,9 +32,9 @@ class P2HashFunction:
         f.write('seed ' + str(self.seed))
 
 
-class P2LSH(LSH):
+class P1LSH(LSH):
     def dist(self, a, b):
-        return np.linalg.norm(np.subtract(a, b))
+        return sum(np.absolute(a - b))
 
     def saveHashFunctions(self, functions, fileName):
         if fileName.endswith('.txt'):
@@ -53,12 +52,12 @@ class P2LSH(LSH):
             k = f.readline().split(' ')[1]
             r = f.readline().split(' ')[1]
             seed = f.readline().split(' ')[1]
-            functions.append(P2HashFunction(d, k, r, seed))
+            functions.append(P1HashFunction(d, k, r, seed))
         return functions
 
     # Construct l hash functions for d-dimensional points in Hamming space
     def makeHashFunctions(self, d, l, k, r):
         functions = []
         for i in range(l):
-            functions.append(P2HashFunction(d, k, r))
+            functions.append(P1HashFunction(d, k, r))
         return functions
