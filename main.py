@@ -79,10 +79,11 @@ def doHamLsh(settings):
         currentTime = time.time()
         functions = lsh.makeHashFunctions(d, l, k)
         functionDict = lsh.hashData(data, functions)
-        baseDir = os.path.dirname(settings.f)
+        baseDir = os.path.dirname(f)
         if os.path.isdir(baseDir):
             shutil.rmtree(baseDir)
-        os.makedirs(baseDir)
+        if baseDir != '':
+            os.makedirs(baseDir)
         lsh.saveHashFunctions(functions, f)
         lsh.saveFunctionDict(functionDict, h)
         time0 = time.time() - currentTime
