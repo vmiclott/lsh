@@ -1,14 +1,36 @@
 # General Usage:
-`python main.py`
+`python main.py`  
+```
+Arguments for preprocessing:
+  -p            required                            enable preprocessing
+  -mmethod      required                            lsh method can be either of hamlsh, p1lsh, p2lsh, klsh
+  -Ddata.npy    required                            path to data set
+  -Rval         required for hamlsh, p1lsh, p2lsh   R radius of ball around query that contains at least 1 data point
+  -cval         required for hamlsh, p1lsh, p2lsh   approx. factor for ANN
+  -Ttrain.npy   required for klsh                   training set (usually subset of data.npy) to train kmeans
+  -lval         required for klsh                   amount of clusterings to be made
+  -kval         required for klsh                   amount of centroids per clustering
+  [-fsave]      optional                            path to save hash functions
+  [-hsave]      optional                            path to save hashcodes for each hash function
+```
+```
+Arguments for LSH:
+  -mmethod      required                            lsh method can be either of hamlsh, p1lsh, p2lsh, klsh
+  -Ddata.npy    required                            path to data set
+  -Qquery.npy   required                            path to query
+  -lval         required                            amount of hashfunctions
+  [-fsave]      optional                            path to load hash functions from
+  [-hsave]      optional                            path to load hashcodes for each hash function from
+```
 
 # HamLSH: 
-Preprocessing arguments: `-mhamlsh -p -Ddataset.npy -Rval -cval [-fsaveHashFunctions -hsaveHashCodes]`  
+Preprocessing arguments: `-p -mhamlsh -Ddata.npy -Rval -cval [-fsaveHashFunctions -hsaveHashCodes]`  
 Output:  
 k = ...  
 l = ...  
 Preprocessing time = ...  
 
-ANN vs NN arguments: `-mhamlsh -Ddataset.npy -Qquery.npy -lval [-fsaveHashFunctions -hsaveHashCodes]`  
+ANN vs NN arguments: `-mhamlsh -Ddata.npy -Qquery.npy -lval [-fsaveHashFunctions -hsaveHashCodes]`  
 Output:  
 Items in same buckets (indices): {...}  
 ANN (index): ...  
@@ -42,13 +64,13 @@ Time: 0.02393817901611328
 Distance to query: 11  
 
 # P1LSH:
-Preprocessing arguments: `-mp1lsh -p -Ddataset.npy -Rval -cval [-fsaveHashFunctions -hsaveHashCodes]`  
+Preprocessing arguments: `-p -mp1lsh -Ddata.npy -Rval -cval [-fsaveHashFunctions -hsaveHashCodes]`  
 Output:  
 k = ...  
 l = ...  
 Preprocessing time = ...  
 
-ANN vs NN arguments: `-mp1lsh -Ddataset.npy -Qquery.npy -lval [-fsaveHashFunctions -hsaveHashCodes]`  
+ANN vs NN arguments: `-mp1lsh -Ddata.npy -Qquery.npy -lval [-fsaveHashFunctions -hsaveHashCodes]`  
 Output:  
 Items in same buckets (indices): {...}  
 ANN (index): ...  
@@ -84,13 +106,13 @@ Distance to query: 13.977791704736852
 
 
 # P2LSH:
-Preprocessing arguments: `-mp2lsh -p -Ddataset.npy -Rval -cval [-fsaveHashFunctions -hsaveHashCodes]`  
+Preprocessing arguments: `-p -mp2lsh -Ddata.npy -Rval -cval [-fsaveHashFunctions -hsaveHashCodes]`  
 Output:  
 k = ...  
 l = ...  
 Preprocessing time = ...  
 
-ANN vs NN arguments: `-mp2lsh -Ddataset.npy -Qquery.npy -lval [-fsaveHashFunctions -hsaveHashCodes]`  
+ANN vs NN arguments: `-mp2lsh -Ddata.npy -Qquery.npy -lval [-fsaveHashFunctions -hsaveHashCodes]`  
 Output:  
 Items in same buckets (indices): {...}  
 ANN (index): ...  
@@ -123,14 +145,14 @@ Nearest Neighbor (index):4668
 Time: 0.06981325149536133  
 Distance to query: 4.04929771735058  
 
-# LSH:
-Preprocessing arguments: `-mp2lsh -p -Ddataset.npy -Rval -cval [-fsaveHashFunctions -hsaveHashCodes]`  
+# KLSH:
+Preprocessing arguments: `-p -mklsh -Ddata.npy -Ttrain.npy -lval -kval [-fsaveHashFunctions -hsaveHashCodes]`  
 Output:  
 k = ...  
 l = ...  
 Preprocessing time = ...  
 
-ANN vs NN arguments: `-mp2lsh -Ddataset.npy -Qquery.npy -lval [-fsaveHashFunctions -hsaveHashCodes]`  
+ANN vs NN arguments: `-mklsh -Ddata.npy -Qquery.npy -lval [-fsaveHashFunctions -hsaveHashCodes]`  
 Output:  
 Items in same buckets (indices): {...}  
 ANN (index): ...  
