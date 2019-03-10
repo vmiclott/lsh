@@ -9,7 +9,7 @@ A given query will be hashed using the same `l` hash functions and will be compa
 Arguments for preprocessing:
   -p            required                            enable preprocessing
   -mmethod      required                            lsh method can be either of hamlsh, p1lsh, p2lsh, klsh
-  -Ddata.npy    required                            path to data set
+  -Ddata.npy    required                            path to data set (numpy array with rows being the data points)
   -Rval         required for hamlsh, p1lsh, p2lsh   R radius of ball around query that contains at least 1 data point
   -cval         required for hamlsh, p1lsh, p2lsh   approx. factor for ANN
   -Ttrain.npy   required for klsh                   training set (usually subset of data.npy) to train kmeans
@@ -21,8 +21,8 @@ Arguments for preprocessing:
 ```
 Arguments for LSH:
   -mmethod      required                            lsh method can be either of hamlsh, p1lsh, p2lsh, klsh
-  -Ddata.npy    required                            path to data set
-  -Qquery.npy   required                            path to query
+  -Ddata.npy    required                            path to data set (numpy array with rows being the data points)
+  -Qquery.npy   required                            path to query (numpy array)
   -lval         required                            amount of hashfunctions
   [-fsave]      optional                            path to load hash functions from
   [-hsave]      optional                            path to load hashcodes for each hash function from
