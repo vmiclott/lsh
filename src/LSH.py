@@ -69,4 +69,3 @@ class LSH:
             if minDist == 0:
                 return nearestNeighbor
         return nearestNeighbor
-

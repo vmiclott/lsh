@@ -6,9 +6,8 @@ from lsh.src.klsh.klsh import *
 
 kLsh = KLSH()
 
-r = 10
 l = 20
-k = 2
+k = 10
 d = 10
 n = 1000
 data = np.random.random_sample((n, d))

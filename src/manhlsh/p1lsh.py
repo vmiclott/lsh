@@ -1,5 +1,6 @@
 import numpy as np
-from lsh.src import LSH
+
+from src.LSH import LSH
 
 
 class P1HashFunction:

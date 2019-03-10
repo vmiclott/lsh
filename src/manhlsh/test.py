@@ -7,13 +7,13 @@ p1Lsh = P1LSH()
 r = 10
 l = 20
 k = 2
-d = 10
-n = 1000
+d = 20
+n = 10000
 data = np.random.randint(0, 10, (n, d))
-# np.save('data',data)
+np.save('data',data)
 # data = np.load('data.npy')
 p = np.random.randint(0, 10, d)
-# np.save('p',p)
+np.save('p',p)
 # p = np.load('p.npy')
 currentTime = time.time()
 functions = p1Lsh.makeHashFunctions(d, l, k, r)
