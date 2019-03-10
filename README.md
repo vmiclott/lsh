@@ -106,12 +106,12 @@ d = 20
 data = normal(0,1,(n,d))  
 p = normal(0,1,d)  
 
-D:\Victor\Documents\Ugent\Thesis\Code\lsh>python main.py -p -mp2lsh -Dp2data/data.npy -R5 -c2 -fp2save/savedHashFunction -hp2save/savedHashCodes  
+...\lsh>python main.py -p -mp2lsh -Dp2data/data.npy -R5 -c2 -fp2save/savedHashFunction -hp2save/savedHashCodes  
 l: 62  
 k: 18  
 Preprocessing time: 78.0030996799469  
 
-D:\Victor\Documents\Ugent\Thesis\Code\lsh>python main.py -mp2lsh -Dp2data/data.npy -Qp2data/p.npy -l62 -fp2save/savedHashFunction -hp2save/savedHashCodes  
+...\lsh>python main.py -mp2lsh -Dp2data/data.npy -Qp2data/p.npy -l62 -fp2save/savedHashFunction -hp2save/savedHashCodes  
 Items in same bucket (indices): {0, 8194, 8198, 4103, ..., 8186, 4095}  
 Near Neighbor (index): 4668  
 Time: 0.03188443183898926  
@@ -119,3 +119,45 @@ Distance to query: 4.04929771735058
 Nearest Neighbor (index):4668  
 Time: 0.06981325149536133  
 Distance to query: 4.04929771735058  
+
+# LSH:
+Preprocessing arguments: -mp2lsh -p -Ddataset.npy -Rval -cval [-fsaveHashFunctions -hsaveHashCodes]  
+Output:  
+k = ...  
+l = ...  
+Preprocessing time = ...  
+
+ANN vs NN arguments: -mp2lsh -Ddataset.npy -Qquery.npy -lval [-fsaveHashFunctions -hsaveHashCodes]  
+Output:  
+Items in same buckets (indices): {...}  
+ANN (index): ...  
+Time: ...  
+Distance to query: ...  
+NN (index): ...  
+Time: ...  
+Distance to query: ...  
+
+
+### EXAMPLE (https://puu.sh/CXTSt.png):
+
+Data properties:  
+n = 10000  
+d = 20  
+data = 10 gaussian clusters centers (0,0,...,0), (1,1,...,1), ..., (9,9,...,9) with sigma 1  
+trainindices = random(0,n,n/100)  
+train = data[trainindices]  
+p = normal(0,1,d)  
+
+...\lsh>python main.py -p -mklsh -Dkdata/data.npy -Tkdata/train.npy -l20 -k20 -fksave/savedHashFunction -hksave/savedHashCodes  
+l: 20  
+k: 20  
+Preprocessing time: 30.465436458587646  
+
+...\lsh>python main.py -mklsh -Dkdata/data.npy -Qkdata/p.npy -l20 -fksave/savedHashFunction -hksave/savedHashCodes  
+Items in same bucket (indices): {0, 1, 2, 3, ..., 1947, 1954}  
+Near Neighbor (index): 680  
+Time: 0.01992034912109375  
+Distance to query: 3.8583251886429895  
+Nearest Neighbor (index):680  
+Time: 0.0628666877746582  
+Distance to query: 3.8583251886429895  
