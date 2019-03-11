@@ -1,4 +1,6 @@
 import numpy as np
+
+
 class LSH:
     def dist(self, a, b):
         pass
@@ -20,12 +22,12 @@ class LSH:
             functionDict[i] = self.hashDataWithFunction(data, functions[i])
         return functionDict
 
-    def saveFunctionDict(self,functionDict,fileName):
+    def saveFunctionDict(self, functionDict, fileName):
         for i in range(len(functionDict)):
             name = fileName + str(i)
-            np.save(name,functionDict[i])
+            np.save(name, functionDict[i])
 
-    def loadFunctionDict(self,l,fileName):
+    def loadFunctionDict(self, l, fileName):
         functionDict = {}
         for i in range(l):
             name = fileName + str(i) + '.npy'

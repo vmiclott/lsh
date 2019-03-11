@@ -11,10 +11,10 @@ l = 20
 k = 2
 d = 10
 n = 1000
-data = 100*np.random.random((n, d))
+data = 100 * np.random.random((n, d))
 # np.save('data',data)
 # data = np.load('data.npy')
-p = 100*np.random.random(d)
+p = 100 * np.random.random(d)
 # np.save('p',p)
 # p = np.load('p.npy')
 currentTime = time.time()

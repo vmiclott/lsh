@@ -54,4 +54,3 @@ class KLSH(LSH):
         for i in range(l):
             functions.append(KMeansHashFunction(k, train))
         return functions
-

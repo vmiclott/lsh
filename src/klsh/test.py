@@ -20,8 +20,8 @@ train = data[0:100]
 # np.save('train',train)
 # train = np.load('train.npy')
 functions = kLsh.makeHashFunctions(l, k, train)
-#kLsh.saveHashFunctions(functions, 'hashFunction')
-#functions = kLsh.loadHashFunctions(l, 'hashFunction')
+# kLsh.saveHashFunctions(functions, 'hashFunction')
+# functions = kLsh.loadHashFunctions(l, 'hashFunction')
 functionDict = kLsh.hashData(data, functions)
 
 currentTime = time.time()

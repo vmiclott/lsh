@@ -26,7 +26,6 @@ class HammingHashFunction:
         f.write('seed ' + str(self.seed))
 
 
-
 class HammingLSH(LSH):
     def dist(self, a, b):
         return np.count_nonzero(a != b)

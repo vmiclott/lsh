@@ -11,11 +11,11 @@ k = 25
 d = 50
 n = 10000
 data = np.random.randint(0, 2, (n, d))
-np.save('data',data)
-#data = np.load('data.npy')
+np.save('data', data)
+# data = np.load('data.npy')
 p = np.random.randint(0, 2, d)
-np.save('p',p)
-#p = np.load('p.npy')
+np.save('p', p)
+# p = np.load('p.npy')
 
 currentTime = time.time()
 functions = hammLsh.makeHashFunctions(d, l, k)

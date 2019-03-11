@@ -67,10 +67,10 @@ def doP1Lsh(settings):
         n = len(data)
         d = len(data[0])
         R = settings.R
-        r = 4*R
+        r = 4 * R
         c = settings.c
-        p1 = 2/math.pi*math.atan(r/R)-R/(math.pi*r)*np.log((r/R)**2+1)
-        p2 = 2/math.pi*math.atan(r/(c*R))-(c*R)/(math.pi*r)*np.log((r/(c*R))**2+1)
+        p1 = 2 / math.pi * math.atan(r / R) - R / (math.pi * r) * np.log((r / R) ** 2 + 1)
+        p2 = 2 / math.pi * math.atan(r / (c * R)) - (c * R) / (math.pi * r) * np.log((r / (c * R)) ** 2 + 1)
         rho = np.log(1 / p1) / np.log(1 / p2)
         l = int(np.power(n, rho))
         k = int(np.log(n) / np.log(1 / p2))
@@ -109,6 +109,7 @@ def doP1Lsh(settings):
         print("Time: " + str(time2))
         print("Distance to query: " + str(lsh.dist(p, data[nearestNeighbor])))
 
+
 def doP2Lsh(settings):
     lsh = P2LSH()
     if settings.preprocess:
@@ -119,10 +120,12 @@ def doP2Lsh(settings):
         n = len(data)
         d = len(data[0])
         R = settings.R
-        r = 4*R
+        r = 4 * R
         c = settings.c
-        p1 = 1 - (1+math.erf(-r/(R*math.sqrt(2)))) - (2*R)/(math.sqrt(2*math.pi)*r)*(1-math.exp(-r**2/(2*R**2)))
-        p2 = 1 - (1+math.erf(-r/((c*R)*math.sqrt(2)))) - (2*(c*R))/(math.sqrt(2*math.pi)*r)*(1-math.exp(-r**2/(2*(c*R)**2)))
+        p1 = 1 - (1 + math.erf(-r / (R * math.sqrt(2)))) - (2 * R) / (math.sqrt(2 * math.pi) * r) * (
+            1 - math.exp(-r ** 2 / (2 * R ** 2)))
+        p2 = 1 - (1 + math.erf(-r / ((c * R) * math.sqrt(2)))) - (2 * (c * R)) / (math.sqrt(2 * math.pi) * r) * (
+            1 - math.exp(-r ** 2 / (2 * (c * R) ** 2)))
         rho = np.log(1 / p1) / np.log(1 / p2)
         l = int(np.power(n, rho))
         k = int(np.log(n) / np.log(1 / p2))
@@ -160,6 +163,7 @@ def doP2Lsh(settings):
         print("Nearest Neighbor (index):" + str(nearestNeighbor))
         print("Time: " + str(time2))
         print("Distance to query: " + str(lsh.dist(p, data[nearestNeighbor])))
+
 
 def doKLsh(settings):
     lsh = KLSH()
@@ -209,7 +213,6 @@ def doKLsh(settings):
         print("Nearest Neighbor (index):" + str(nearestNeighbor))
         print("Time: " + str(time2))
         print("Distance to query: " + str(lsh.dist(p, data[nearestNeighbor])))
-
 
 
 def doHamLsh(settings):

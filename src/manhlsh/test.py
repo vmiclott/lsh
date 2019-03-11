@@ -10,10 +10,10 @@ k = 2
 d = 20
 n = 10000
 data = np.random.randint(0, 10, (n, d))
-np.save('data',data)
+np.save('data', data)
 # data = np.load('data.npy')
 p = np.random.randint(0, 10, d)
-np.save('p',p)
+np.save('p', p)
 # p = np.load('p.npy')
 currentTime = time.time()
 functions = p1Lsh.makeHashFunctions(d, l, k, r)
