@@ -21,13 +21,13 @@ Arguments for preprocessing:
 ```
 ```
 Arguments for LSH:
-  argument        required/optional                   default value                 description
-  -m<method>      required                                                          lsh method can be either of hamlsh, p1lsh, p2lsh, klsh
-  -D<data.npy>    required                                                          path to data set (numpy array with rows being the data points)
-  -Q<query.npy>   required                                                          path to query (numpy array)
-  -l<val>         required                                                          amount of hashfunctions
-  [-f<save>]      optional                            resources/hashCodesForFunc    path to load hash functions from
-  [-h<save>]      optional                            resources/hashCodesForFunc    path to load hashcodes for each hash function from
+  argument        required/optional   default value                 description
+  -m<method>      required                                          lsh method can be either of hamlsh, p1lsh, p2lsh, klsh
+  -D<data.npy>    required                                          path to data set (numpy array with rows being the data points)
+  -Q<query.npy>   required                                          path to query (numpy array)
+  -l<val>         required                                          amount of hashfunctions
+  [-f<save>]      optional            resources/hashCodesForFunc    path to load hash functions from
+  [-h<save>]      optional            resources/hashCodesForFunc    path to load hashcodes for each hash function from
 ```
 
 # HamLSH: 
