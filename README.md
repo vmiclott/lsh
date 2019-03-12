@@ -16,7 +16,7 @@ Arguments for preprocessing:
   -T<train.npy>   required for klsh                                                 training set (usually subset of data.npy) to train kmeans
   -l<val>         required for klsh                                                 amount of clusterings to be made
   -k<val>         required for klsh                                                 amount of centroids per clustering
-  [-f<save>]      optional                            resources/hashCodesForFunc    path to save hash functions
+  [-f<save>]      optional                            resources/hashFunc            path to save hash functions
   [-h<save>]      optional                            resources/hashCodesForFunc    path to save hashcodes for each hash function
 ```
 ```
@@ -26,7 +26,7 @@ Arguments for LSH:
   -D<data.npy>    required                                          path to data set (numpy array with rows being the data points)
   -Q<query.npy>   required                                          path to query (numpy array)
   -l<val>         required                                          amount of hashfunctions
-  [-f<save>]      optional            resources/hashCodesForFunc    path to load hash functions from
+  [-f<save>]      optional            resources/hashFunc            path to load hash functions from
   [-h<save>]      optional            resources/hashCodesForFunc    path to load hashcodes for each hash function from
 ```
 
