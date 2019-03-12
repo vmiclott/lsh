@@ -7,25 +7,27 @@ A given query will be hashed using the same `l` hash functions and will be compa
 `python main.py`  
 ```
 Arguments for preprocessing:
-  -p            required                            enable preprocessing
-  -mmethod      required                            lsh method can be either of hamlsh, p1lsh, p2lsh, klsh
-  -Ddata.npy    required                            path to data set (numpy array with rows being the data points)
-  -Rval         required for hamlsh, p1lsh, p2lsh   R radius of ball around query that contains at least 1 data point
-  -cval         required for hamlsh, p1lsh, p2lsh   approx. factor for ANN
-  -Ttrain.npy   required for klsh                   training set (usually subset of data.npy) to train kmeans
-  -lval         required for klsh                   amount of clusterings to be made
-  -kval         required for klsh                   amount of centroids per clustering
-  [-fsave]      optional                            path to save hash functions
-  [-hsave]      optional                            path to save hashcodes for each hash function
+  argument        required/optional                   default value                 description    
+  -p              required                                                          enable preprocessing
+  -m<method>      required                                                          lsh method can be either of hamlsh, p1lsh, p2lsh, klsh
+  -D<data.npy>    required                                                          path to data set (numpy array with rows being the data points)
+  -R<val>         required for hamlsh, p1lsh, p2lsh                                 R radius of ball around query that contains at least 1 data point
+  -c<val>         required for hamlsh, p1lsh, p2lsh                                 approx. factor for ANN
+  -T<train.npy>   required for klsh                                                 training set (usually subset of data.npy) to train kmeans
+  -l<val>         required for klsh                                                 amount of clusterings to be made
+  -k<val>         required for klsh                                                 amount of centroids per clustering
+  [-f<save>]      optional                            resources/hashCodesForFunc    path to save hash functions
+  [-h<save>]      optional                            resources/hashCodesForFunc    path to save hashcodes for each hash function
 ```
 ```
 Arguments for LSH:
-  -mmethod      required                            lsh method can be either of hamlsh, p1lsh, p2lsh, klsh
-  -Ddata.npy    required                            path to data set (numpy array with rows being the data points)
-  -Qquery.npy   required                            path to query (numpy array)
-  -lval         required                            amount of hashfunctions
-  [-fsave]      optional                            path to load hash functions from
-  [-hsave]      optional                            path to load hashcodes for each hash function from
+  argument        required/optional                   default value                 description
+  -m<method>      required                                                          lsh method can be either of hamlsh, p1lsh, p2lsh, klsh
+  -D<data.npy>    required                                                          path to data set (numpy array with rows being the data points)
+  -Q<query.npy>   required                                                          path to query (numpy array)
+  -l<val>         required                                                          amount of hashfunctions
+  [-f<save>]      optional                            resources/hashCodesForFunc    path to load hash functions from
+  [-h<save>]      optional                            resources/hashCodesForFunc    path to load hashcodes for each hash function from
 ```
 
 # HamLSH: 
