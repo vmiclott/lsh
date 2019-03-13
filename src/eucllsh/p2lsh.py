@@ -1,6 +1,5 @@
 import numpy as np
 
-
 from src.LSH import LSH
 
 
@@ -18,7 +17,7 @@ class P2HashFunction:
             self.seed = np.random.randint(0, 2147483647)
         np.random.seed(self.seed)
         self.a = np.random.normal(0, 1, (k, d))
-        self.b = np.random.randint(0, r, k)
+        self.b = np.random.uniform(0, r, k)
 
     def hash(self, p):
         hashcode = np.zeros(self.k)

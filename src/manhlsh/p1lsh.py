@@ -17,7 +17,7 @@ class P1HashFunction:
             self.seed = np.random.randint(0, 2147483647)
         np.random.seed(self.seed)
         self.a = np.random.standard_cauchy((k, d))
-        self.b = np.random.randint(0, r, k)
+        self.b = np.random.uniform(0, r, k)
 
     def hash(self, p):
         hashcode = np.zeros(self.k)
