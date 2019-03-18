@@ -76,6 +76,8 @@ def doP1Lsh(settings):
         k = int(np.log(n) / np.log(1 / p2))
         print('l: ' + str(l))
         print('k: ' + str(k))
+        print('n: ' + str(n))
+        print('d: ' + str(d))
         currentTime = time.time()
         functions = lsh.makeHashFunctions(d, l, k, r)
         functionDict = lsh.hashData(data, functions)
@@ -181,6 +183,8 @@ def doKLsh(settings):
         k = settings.k
         print('l: ' + str(l))
         print('k: ' + str(k))
+        print('n: ' + str(n))
+        print('d: ' + str(d))
         currentTime = time.time()
         functions = lsh.makeHashFunctions(l, k, train)
         functionDict = lsh.hashData(data, functions)
@@ -233,7 +237,8 @@ def doHamLsh(settings):
         k = int(np.log(n) / np.log(1 / p2))
         print('l: ' + str(l))
         print('k: ' + str(k))
-
+        print('n: ' + str(n))
+        print('d: ' + str(d))
         currentTime = time.time()
         functions = lsh.makeHashFunctions(d, l, k)
         functionDict = lsh.hashData(data, functions)
