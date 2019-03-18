@@ -42,6 +42,7 @@ class LSH:
             hashDict = functionDict[i]
             if hashcode in hashDict.keys():
                 indices.update(hashDict[hashcode])
+        print("Items in same bucket (amount): " + str(len(indices)))
         print("Items in same bucket (indices): " + str(indices))
         minDist = 0
         nearNeighbor = None
