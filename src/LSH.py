@@ -37,13 +37,18 @@ class LSH:
     # Find near neighbor using hash codes
     def nearNeighbor(self, p, data, functionDict, functions):
         indices = set()
-        for i in range(len(functions)):
+        l = len(functions)
+        count = 0
+        i = 0
+        while count < 3*l and i < l-1:
             hashcode = functions[i].hash(p)
             hashDict = functionDict[i]
             if hashcode in hashDict.keys():
                 indices.update(hashDict[hashcode])
-        print("Items in same bucket (amount): " + str(len(indices)))
-        print("Items in same bucket (indices): " + str(indices))
+                count += len(hashDict[hashcode])
+            i += 1
+        #print("Items in same bucket (amount): " + str(len(indices)))
+        #print("Items in same bucket (indices): " + str(indices))
         minDist = 0
         nearNeighbor = None
         for index in indices:

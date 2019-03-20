@@ -251,6 +251,7 @@ def doHamLsh(settings):
         lsh.saveFunctionDict(functionDict, h)
         time0 = time.time() - currentTime
         print("Preprocessing time: " + str(time0))
+    '''
     if not settings.preprocess:
         p = settings.query
         data = settings.data
@@ -271,6 +272,33 @@ def doHamLsh(settings):
         print("Nearest Neighbor (index):" + str(nearestNeighbor))
         print("Time: " + str(time2))
         print("Distance to query: " + str(lsh.dist(p, data[nearestNeighbor])))
+    '''
+    if not settings.preprocess:
+        queries = settings.query
+        data = settings.data
+        f = settings.f
+        h = settings.h
+        l = settings.l
+        functions = lsh.loadHashFunctions(l, f)
+        functionDict = lsh.loadFunctionDict(l, h)
+        currentTime = time.time()
+        nearNeighbors = []
+        for p in queries:
+            nearNeighbors.append(lsh.nearNeighbor(p, data, functionDict, functions))
+        time1 = time.time() - currentTime
+        currentTime = time.time()
+        nearestNeighbors = []
+        for p in queries:
+            nearestNeighbors.append(lsh.nearestNeighbor(p, data))
+        time2 = time.time() - currentTime
+        accuracy = 0
+        for i in range(len(queries)):
+            if lsh.dist(queries[i], data[nearNeighbors[i]])==lsh.dist(queries[i], data[nearestNeighbors[i]]):
+                accuracy += 1
+        print("Number of queries: " + str(len(queries)))
+        print("Accuracy: " + str(accuracy/len(queries)))
+        print("Time (LSH): " + str(time1))
+        print("Time (Brute Force): " + str(time2))
 
 
 def main(argv):
