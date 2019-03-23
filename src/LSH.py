@@ -40,7 +40,8 @@ class LSH:
         l = len(functions)
         count = 0
         i = 0
-        while count < 3*l and i < l-1:
+        #while count < 3*l and i < l-1:
+        while i < l - 1:
             hashcode = functions[i].hash(p)
             hashDict = functionDict[i]
             if hashcode in hashDict.keys():
