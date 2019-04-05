@@ -18,6 +18,7 @@ def parsecl(argv):
     settings.method = None
     settings.functions = None
     settings.preprocess = False
+    settings.approx = False
     settings.output = 'output/output.txt'
     settings.h = 'resources/hashCodesForFunc'
     settings.f = 'resources/hashFunc'
@@ -30,6 +31,8 @@ def parsecl(argv):
         val = argv[i][2:]
         if flag == '-p':
             settings.preprocess = True
+        if flag == '-a':
+            settings.approx = True
         if flag == '-m':
             settings.method = val
         if flag == '-l':
@@ -248,19 +251,34 @@ def handleQueries(settings, lsh):
     time1 = time.time() - currentTime
     currentTime = time.time()
     nearestNeighbors = []
+    distances = []
+    exactDistances = []
     for p in queries:
         nearestNeighbors.append(lsh.nearestNeighbor(p, data))
     time2 = time.time() - currentTime
     accuracy = 0
     for i in range(len(queries)):
-        if lsh.dist(queries[i], data[nearNeighbors[i]]) == lsh.dist(queries[i], data[nearestNeighbors[i]]):
+        if settings.approx and settings.c and settings.R:
+            if lsh.dist(queries[i], data[nearNeighbors[i]]) <= settings.c * settings.R:
+                accuracy += 1
+        elif lsh.dist(queries[i], data[nearNeighbors[i]]) == lsh.dist(queries[i], data[nearestNeighbors[i]]):
             accuracy += 1
+            distances.append(lsh.dist(queries[i], data[nearNeighbors[i]]))
+            exactDistances.append(lsh.dist(queries[i], data[nearestNeighbors[i]]))
 
     file = open(out, 'w')
     file.write("Number of queries: " + str(len(queries)) + '\n')
     file.write("Accuracy: " + str(accuracy / len(queries)) + '\n')
     file.write("Time (LSH): " + str(time1) + '\n')
     file.write("Time (Brute Force): " + str(time2) + '\n')
+    file.write("Near neighbors (LSH):\n")
+    file.write(str(nearNeighbors) + '\n')
+    file.write("Nearest neighbors (Brute Force):\n")
+    file.write(str(nearestNeighbors) + '\n')
+    file.write("Distances:\n")
+    file.write(str(distances) + '\n')
+    file.write("Exact Distances:\n")
+    file.write(str(exactDistances) + '\n')
     file.close()
 
 

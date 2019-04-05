@@ -36,8 +36,6 @@ python main.py -p -k10 -l44 -mhamlsh -Dhamdata/data.npy -R15 -c2 -fhamsave/saved
 python main.py -mhamlsh -Dhamdata/data.npy -Qhamdata/queries.npy -l44 -fhamsave/savedHashFunction -hhamsave/savedHashCodes -ohamout/resultsk10l44
 python main.py -p -k10 -l46 -mhamlsh -Dhamdata/data.npy -R15 -c2 -fhamsave/savedHashFunction -hhamsave/savedHashCodes -ohamout/preprocessk10l46
 python main.py -mhamlsh -Dhamdata/data.npy -Qhamdata/queries.npy -l46 -fhamsave/savedHashFunction -hhamsave/savedHashCodes -ohamout/resultsk10l46
-python main.py -p -k10 -l46 -mhamlsh -Dhamdata/data.npy -R15 -c2 -fhamsave/savedHashFunction -hhamsave/savedHashCodes -ohamout/preprocessk10l46
-python main.py -mhamlsh -Dhamdata/data.npy -Qhamdata/queries.npy -l46 -fhamsave/savedHashFunction -hhamsave/savedHashCodes -ohamout/resultsk10l46
 python main.py -p -k10 -l48 -mhamlsh -Dhamdata/data.npy -R15 -c2 -fhamsave/savedHashFunction -hhamsave/savedHashCodes -ohamout/preprocessk10l48
 python main.py -mhamlsh -Dhamdata/data.npy -Qhamdata/queries.npy -l48 -fhamsave/savedHashFunction -hhamsave/savedHashCodes -ohamout/resultsk10l48
 python main.py -p -k10 -l50 -mhamlsh -Dhamdata/data.npy -R15 -c2 -fhamsave/savedHashFunction -hhamsave/savedHashCodes -ohamout/preprocessk10l50
