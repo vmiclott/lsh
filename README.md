@@ -1,7 +1,7 @@
 # Theory:
 During preprocessing, every data point from a data set is hashed using `l` hash functions in such a way that close points `(dist <R)` are hashed to the same bucket with chance `p1` and far points `(dist > cR)` are hashed to the same bucket with chance `p2` for each hash function.  
   
-A given query will be hashed using the same `l` hash functions and will be compared to (currently all) `3l` data points from its buckets to find the nearest neighbor (this should be a near neighbor in the whole data set).
+A given query will be hashed using the same `l` hash functions and will be compared to all data points from its buckets to find the nearest neighbor (this should be a near neighbor in the whole data set).
 
 # General Usage:
 `python main.py`  
