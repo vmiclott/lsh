@@ -254,7 +254,9 @@ def handleQueries(settings, lsh):
     distances = []
     exactDistances = []
     for p in queries:
-        nearestNeighbors.append(lsh.nearestNeighbor(p, data))
+        nearestNeighbor = lsh.nearestNeighbor(p, data)
+        nearestNeighbors.append(nearestNeighbor)
+        exactDistances.append(lsh.dist(p, data[nearestNeighbor]))
     time2 = time.time() - currentTime
     accuracy = 0
     for i in range(len(queries)):
@@ -264,7 +266,6 @@ def handleQueries(settings, lsh):
         elif lsh.dist(queries[i], data[nearNeighbors[i]]) == lsh.dist(queries[i], data[nearestNeighbors[i]]):
             accuracy += 1
             distances.append(lsh.dist(queries[i], data[nearNeighbors[i]]))
-            exactDistances.append(lsh.dist(queries[i], data[nearestNeighbors[i]]))
 
     file = open(out, 'w')
     file.write("Number of queries: " + str(len(queries)) + '\n')
