@@ -59,11 +59,7 @@ Number of queries: 1000
 Accuracy: 0.975  
 Time (LSH): 1.1503241062164307  
 Time (Linear Scan): 11.678465366363525  
-Near neighbors (LSH):  
-[6304, 7333, 46, ..., 2509]  
-Nearest neighbors (Linear Scan):  
-[836, 7333, 46, ..., 2509]  
-Distances:  
-[13, 12, 12, ..., 10]  
-Exact Distances:  
-[13, 12, 12, ..., 10]  
+Near neighbors (LSH): [6304, 7333, 46, ..., 2509]  
+Nearest neighbors (Linear Scan): [836, 7333, 46, ..., 2509]  
+Distances:   13, 12, 12, ..., 10]  
+Exact Distances: [13, 12, 12, ..., 10]  
