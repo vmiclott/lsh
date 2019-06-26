@@ -18,6 +18,7 @@ Arguments for preprocessing:
   -k<val>         required for klsh                                                 amount of centroids per clustering
   [-f<save>]      optional                            resources/hashFunc            path to save hash functions
   [-h<save>]      optional                            resources/hashCodesForFunc    path to save hashcodes for each hash function
+  [-o<save>]      optional                            output/output.txt             path to save output file with running information
 ```
 ```
 Arguments for LSH:
@@ -28,6 +29,7 @@ Arguments for LSH:
   -l<val>         required                                          amount of hashfunctions
   [-f<save>]      optional            resources/hashFunc            path to load hash functions from
   [-h<save>]      optional            resources/hashCodesForFunc    path to load hashcodes for each hash function from
+  [-o<save>]      optional            output/output.txt             path to save output file with running information
 ```
 
 # HamLSH: 
@@ -53,22 +55,36 @@ Data properties:
 n = 10000  
 d = 50  
 data = randomBinary((n,d))  
-p = randomBinary(d)  
+queries = randomBinary((1000,d))
 
+`...\lsh>python main.py -p -mhamlsh -Ddata/data.npy -R15 -c2 -fsave/savedHashFunction -hsave/savedHashCodes -oout/preprocess`  
+#### out/preprocess.txt:
+p1: 0.7
+p2: 0.4
+rho: 0.3892595783536952
+R: 15.0
+c: 2.0
+l: 36
+k: 10
+n: 10000
+d: 50
+Preprocessing time: 3.2562215328216553
 
-`...\lsh>python main.py -p -mhamlsh -Dhamdata/data.npy -R15 -c2 -fhamsave/savedHashFunction -hhamsave/savedHashCodes`  
-l: 36  
-k: 10  
-Preprocessing time: 4.428683280944824  
+`...\lsh>python main.py -mhamlsh -Ddata/data.npy -Qdata/queries.npy -l36 -fsave/savedHashFunction -hsave/savedHashCodes -oout/results`  
+#### out/results.txt
+Number of queries: 1000
+Accuracy: 0.975
+Time (LSH): 1.1503241062164307
+Time (Linear Scan): 11.678465366363525
+Near neighbors (LSH):
+[6304, 7333, 46, ..., 2509]
+Nearest neighbors (Linear Scan):
+[836, 7333, 46, ..., 2509]
+Distances:
+[13, 12, 12, ..., 10]
+Exact Distances:
+[13, 12, 12, ..., 10]
 
-`...\lsh>python main.py -mhamlsh -Dhamdata/data.npy -Qhamdata/p.npy -l36 -fhamsave/savedHashFunction -hhamsave/savedHashCodes`  
-Items in same bucket (indices): {4097, 7172, 9223, 3079, ..., 9213, 8191}  
-Near Neighbor (index): 6564  
-Time: 0.003987550735473633  
-Distance to query: 11  
-Nearest Neighbor (index):6564  
-Time: 0.02393817901611328  
-Distance to query: 11  
 
 # P1LSH:
 Preprocessing arguments: `-p -mp1lsh -Ddata.npy -Rval -cval [-fsaveHashFunctions -hsaveHashCodes]`  
