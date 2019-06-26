@@ -43,35 +43,35 @@ Data properties:
 n = 10000  
 d = 50  
 data = randomBinary((n,d))  
-queries = randomBinary((1000,d))
+queries = randomBinary((1000,d))  
 
 `...\lsh>python main.py -p -mhamlsh -Ddata/data.npy -R15 -c2 -fsave/savedHashFunction -hsave/savedHashCodes -oout/preprocess`  
 #### out/preprocess.txt:
-p1: 0.7
-p2: 0.4
-rho: 0.3892595783536952
-R: 15.0
-c: 2.0
-l: 36
-k: 10
-n: 10000
-d: 50
-Preprocessing time: 3.2562215328216553
+p1: 0.7  
+p2: 0.4  
+rho: 0.3892595783536952  
+R: 15.0  
+c: 2.0  
+l: 36  
+k: 10  
+n: 10000  
+d: 50  
+Preprocessing time: 3.2562215328216553  
 
 `...\lsh>python main.py -mhamlsh -Ddata/data.npy -Qdata/queries.npy -l36 -fsave/savedHashFunction -hsave/savedHashCodes -oout/results`  
 #### out/results.txt
-Number of queries: 1000
-Accuracy: 0.975
-Time (LSH): 1.1503241062164307
-Time (Linear Scan): 11.678465366363525
-Near neighbors (LSH):
-[6304, 7333, 46, ..., 2509]
-Nearest neighbors (Linear Scan):
-[836, 7333, 46, ..., 2509]
-Distances:
-[13, 12, 12, ..., 10]
-Exact Distances:
-[13, 12, 12, ..., 10]
+Number of queries: 1000  
+Accuracy: 0.975  
+Time (LSH): 1.1503241062164307  
+Time (Linear Scan): 11.678465366363525  
+Near neighbors (LSH):  
+[6304, 7333, 46, ..., 2509]  
+Nearest neighbors (Linear Scan):  
+[836, 7333, 46, ..., 2509]  
+Distances:  
+[13, 12, 12, ..., 10]  
+Exact Distances:  
+[13, 12, 12, ..., 10]  
 
 
 # P1LSH:
